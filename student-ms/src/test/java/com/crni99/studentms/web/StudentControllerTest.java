@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.crni99.studentms.domain.Student;
+import com.crni99.studentms.exception.NoSuchElementException;
 import com.crni99.studentms.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -168,7 +169,7 @@ class StudentControllerTest {
 
 		verify(studentService, times(1)).deleteStudentById(ID_1);
 	}
-	
+
 	@Test
 	void testDeleteStudentByEmail() throws Exception {
 		Mockito.doNothing().when(studentService).deleteStudentByEmail(EMAIL_1);

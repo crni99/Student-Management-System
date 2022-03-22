@@ -16,22 +16,21 @@ import com.crni99.studentms.storage.StudentRepository;
 @Service
 public class StudentService {
 
-	private StudentRepository studentRepository;
+	private final StudentRepository studentRepository;
 
 	public StudentService(StudentRepository studentRepository) {
 		this.studentRepository = studentRepository;
 	}
 
 	public Student saveStudent(Student student) {
-		if (student.getFirstName().isEmpty() || student.getLastName().isEmpty() || student.getEmail().isEmpty()
-				|| student.getDateOfBirth() == null || student.getIndexNumber() == 0) {
+		if (student == null || student.getFirstName().isEmpty() || student.getLastName().isEmpty()
+				|| student.getEmail().isEmpty() || student.getDateOfBirth() == null || student.getIndexNumber() == 0) {
 			throw new EmptyInputException("You need to input all fields.");
 		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
 		if (checkIfStudentWithEmailExist != null) {
 			throw new EmailInUseException("Email already in use.");
 		}
-
 		return studentRepository.save(student);
 	}
 

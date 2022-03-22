@@ -28,7 +28,7 @@ class StudentServiceTest {
 	private static final int INDEX_1 = 183;
 	private static final boolean IS_ON_BUDGET_1 = true;
 
-	private static final Long ID_2 = 1L;
+	private static final Long ID_2 = 2L;
 	private static final String FIRST_NAME_2 = "Nikola";
 	private static final String LAST_NAME_2 = "Petrovic";
 	private static final LocalDate DOB_2 = LocalDate.of(1999, 8, 25);
@@ -119,7 +119,7 @@ class StudentServiceTest {
 	void testDeleteStudentById() {
 
 	}
-	
+
 	@Test
 	void testDeleteStudentByEmail() {
 
