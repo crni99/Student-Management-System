@@ -57,7 +57,7 @@ VALUE: 2004-10-12
 - ### /delete/{id}
 Delete student with ID.
 
--## delete-with-email/{email}
+- ### /delete-with-email/{email}
 Delete student with Email.
 
 
