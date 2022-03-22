@@ -1,7 +1,7 @@
 # Student Management System   
 
 ## Features of this Project
-- Save  /add
+- Save
 - Show all
 - Find by ID
 - Find by Email
@@ -9,7 +9,6 @@
 - Find between two dates of birth
 - Delete by ID
 - Delete by Email
-
 
 ## Environment
 - Eclipse IDE
