@@ -66,7 +66,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testSaveStudent() {
+	void shouldSaveStudent() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		studentController.saveStudent(student);
 
@@ -78,7 +78,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testGetAllStudents() throws Exception {
+	void shouldGetAllStudents() throws Exception {
 		List<Student> students = new ArrayList<>();
 		students.add(new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1));
 		students.add(new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2));
@@ -95,7 +95,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testFindStudentById() throws Exception {
+	void shouldFindStudentById() throws Exception {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentService.findStudentById(ID_1)).thenReturn(student);
@@ -110,7 +110,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testFindStudentByEmail() throws Exception {
+	void shouldFindStudentByEmail() throws Exception {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentService.findStudentByEmail(EMAIL_1)).thenReturn(student);
@@ -125,7 +125,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testFindStudentByIndexNumber() throws Exception {
+	void shouldFindStudentByIndexNumber() throws Exception {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentService.findStudentByIndexNumber(INDEX_1)).thenReturn(student);
@@ -140,7 +140,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testGetStudentsBetweenTwoDOB() throws Exception {
+	void shouldGetStudentsBetweenTwoDOB() throws Exception {
 		LocalDate date1 = LocalDate.of(1998, 8, 25);
 		LocalDate date2 = LocalDate.of(2000, 12, 01);
 
@@ -160,7 +160,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testDeleteStudentById() throws Exception {
+	void shouldDeleteStudentById() throws Exception {
 		Mockito.doNothing().when(studentService).deleteStudentById(ID_1);
 
 		String url = "/api/v1/student-ms/delete/1";
@@ -170,7 +170,7 @@ class StudentControllerTest {
 	}
 
 	@Test
-	void testDeleteStudentByEmail() throws Exception {
+	void shouldDeleteStudentByEmail() throws Exception {
 		Mockito.doNothing().when(studentService).deleteStudentByEmail(EMAIL_1);
 
 		String url = "/api/v1/student-ms/delete-with-email//andjelicb.ognjen@gmail.com";

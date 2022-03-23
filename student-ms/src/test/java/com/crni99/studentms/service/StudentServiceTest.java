@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.crni99.studentms.domain.Student;
+import com.crni99.studentms.exception.EmailInUseException;
 import com.crni99.studentms.exception.EmptyInputException;
 import com.crni99.studentms.exception.NoSuchElementException;
 import com.crni99.studentms.storage.StudentRepository;
@@ -55,7 +56,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testSaveStudent() {
+	void shouldSaveStudent() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		studentService.saveStudent(student);
 
@@ -67,7 +68,19 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testGetAllStudents() throws Exception {
+	void saveStudentShouldThrowExceptionWhenOneOfDataIsEmptyOrNull() {
+		Student student = new Student(ID_1, "", LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student));
+	}
+	
+	@Test
+	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
+		// MAKE CODE FOR THIS ONE
+	}
+
+	@Test
+	void shouldGetAllStudents() throws Exception {
 		List<Student> students = new ArrayList<>();
 		students.add(new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1));
 		students.add(new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2));
@@ -78,12 +91,12 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testGetAllStudentsThrowExceptionWhenStudentsnotExistInDB() {
+	void getAllStudentsShouldThrowExceptionWhenStudentsNotExistInDB() {
 		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.getAllStudents());
 	}
 
 	@Test
-	void testFindStudentById() {
+	void shouldFindStudentById() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentRepository.findStudentById(ID_1)).thenReturn(Optional.of(student));
@@ -92,7 +105,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testThrowExceptionWhenStudentIdIsNull() {
+	void findStudentByIdShouldThrowExceptionWhenIdIsNull() {
 		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
 
@@ -103,7 +116,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testFindStudentByEmail() {
+	void shouldFindStudentByEmail() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentRepository.findStudentByEmail(EMAIL_1)).thenReturn(student);
@@ -112,7 +125,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testThrowExceptionWhenStudentWithEmailNotExist() {
+	void findStudentByEmailShouldThrowExceptionWhenEmailNotExist() {
 		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
 
@@ -124,7 +137,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testFindStudentByIndexNumber() {
+	void shouldFindStudentByIndexNumber() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentRepository.findStudentByIndexNumber(INDEX_1)).thenReturn(student);
@@ -133,13 +146,13 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testThrowExceptionWhenStudentIndexIsNull() {
+	void findStudentByIndexShouldThrowExceptionWhenIndexIsNull() {
 		assertThatExceptionOfType(EmptyInputException.class)
 				.isThrownBy(() -> studentService.findStudentByIndexNumber(0));
 	}
 
 	@Test
-	void testThrowExceptionWhenStudentWithIndexNotExist() {
+	void findStudentByIndexShouldThrowExceptionWhenIndexNotExist() {
 		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
 
@@ -147,11 +160,11 @@ class StudentServiceTest {
 		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.findStudentByIndexNumber(001));
+				.isThrownBy(() -> studentService.findStudentByIndexNumber(3));
 	}
 
 	@Test
-	void testGetStudentsBetweenTwoDOB() {
+	void shouldGetStudentsBetweenTwoDOB() {
 		LocalDate date1 = LocalDate.of(1998, 8, 25);
 		LocalDate date2 = LocalDate.of(2000, 12, 01);
 
@@ -165,7 +178,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testGetStudentsBetweenTwoDobThrowExceptionWhenStudentsBetweenTwoDobNotExist() {
+	void getStudentsBetweenTwoDobShouldThrowExceptionWhenStudentsBetweenNotExist() {
 		LocalDate date1 = LocalDate.of(2001, 8, 25);
 		LocalDate date2 = LocalDate.of(2002, 12, 01);
 
@@ -185,12 +198,12 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testDeleteStudentByIdThrowExceptionWhenStudentIndexIdIsNull() {
+	void deleteStudentByIdShouldThrowExceptionWhenIndexIdIsNull() {
 		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentById(0L));
 	}
 
 	@Test
-	void testDeleteStudentByIdThrowExceptionWhenStudentWithIdNotExist() {
+	void deleteStudentByIdShouldThrowExceptionWhenIdNotExist() {
 		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
 
@@ -206,7 +219,7 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void testDeleteStudentByIdThrowExceptionWhenStudentWithEmailNotExist() {
+	void deleteStudentByIdShouldThrowExceptionWhenEmailNotExist() {
 		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
 
