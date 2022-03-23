@@ -48,9 +48,6 @@ public class StudentService {
 	}
 
 	public Student findStudentByEmail(String email) {
-		if (email.isEmpty()) {
-			throw new EmptyInputException("You need to provide email of student to be searched.");
-		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(email);
 		if (checkIfStudentWithEmailExist == null) {
 			throw new NoSuchElementException("Student with email: " + email + " does not exist.");
@@ -71,9 +68,6 @@ public class StudentService {
 	}
 
 	public List<Student> getStudentsBetweenTwoDOB(LocalDate dob1, LocalDate dob2) {
-		if (dob1 == null || dob2 == null) {
-			throw new EmptyInputException("You need to input both dates of birth.");
-		}
 		List<Student> students = studentRepository.findBetweenTwoDOB(dob1, dob2);
 		if (students.isEmpty()) {
 			throw new NoSuchElementException("Students do not exist in this dates of birth: " + dob1 + " - " + dob2);
@@ -82,7 +76,7 @@ public class StudentService {
 	}
 
 	public void deleteStudentById(Long id) {
-		if (id == null || id == 0) {
+		if (id == 0) {
 			throw new EmptyInputException("You need to provide ID of student to be deleted. ID can not be 0.");
 		}
 		Optional<Student> checkIfStudentWithIdExist = studentRepository.findById(id);
@@ -95,9 +89,6 @@ public class StudentService {
 
 	@Transactional
 	public void deleteStudentByEmail(String email) {
-		if (email.isEmpty()) {
-			throw new EmptyInputException("You need to provide email of student to be deleted.");
-		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(email);
 		if (checkIfStudentWithEmailExist == null) {
 			throw new NoSuchElementException(

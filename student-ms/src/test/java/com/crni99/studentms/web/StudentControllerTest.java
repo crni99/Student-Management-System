@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.crni99.studentms.domain.Student;
-import com.crni99.studentms.exception.NoSuchElementException;
 import com.crni99.studentms.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

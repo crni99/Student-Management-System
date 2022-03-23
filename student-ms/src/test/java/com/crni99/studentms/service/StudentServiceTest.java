@@ -1,6 +1,7 @@
 package com.crni99.studentms.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.crni99.studentms.domain.Student;
+import com.crni99.studentms.exception.EmptyInputException;
+import com.crni99.studentms.exception.NoSuchElementException;
 import com.crni99.studentms.storage.StudentRepository;
 
 class StudentServiceTest {
@@ -75,12 +78,28 @@ class StudentServiceTest {
 	}
 
 	@Test
+	void testGetAllStudentsThrowExceptionWhenStudentsnotExistInDB() {
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.getAllStudents());
+	}
+
+	@Test
 	void testFindStudentById() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentRepository.findStudentById(ID_1)).thenReturn(Optional.of(student));
 
 		assertThat(studentService.findStudentById(ID_1)).isEqualTo(student);
+	}
+
+	@Test
+	void testThrowExceptionWhenStudentIdIsNull() {
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.findStudentById(3L));
 	}
 
 	@Test
@@ -93,12 +112,42 @@ class StudentServiceTest {
 	}
 
 	@Test
+	void testThrowExceptionWhenStudentWithEmailNotExist() {
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.findStudentByEmail("asd@gmail.com"));
+	}
+
+	@Test
 	void testFindStudentByIndexNumber() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		when(studentRepository.findStudentByIndexNumber(INDEX_1)).thenReturn(student);
 
 		assertThat(studentService.findStudentByIndexNumber(INDEX_1)).isEqualTo(student);
+	}
+
+	@Test
+	void testThrowExceptionWhenStudentIndexIsNull() {
+		assertThatExceptionOfType(EmptyInputException.class)
+				.isThrownBy(() -> studentService.findStudentByIndexNumber(0));
+	}
+
+	@Test
+	void testThrowExceptionWhenStudentWithIndexNotExist() {
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.findStudentByIndexNumber(001));
 	}
 
 	@Test
@@ -116,13 +165,56 @@ class StudentServiceTest {
 	}
 
 	@Test
+	void testGetStudentsBetweenTwoDobThrowExceptionWhenStudentsBetweenTwoDobNotExist() {
+		LocalDate date1 = LocalDate.of(2001, 8, 25);
+		LocalDate date2 = LocalDate.of(2002, 12, 01);
+
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.getStudentsBetweenTwoDOB(date1, date2));
+	}
+
+	@Test
 	void testDeleteStudentById() {
 
 	}
 
 	@Test
+	void testDeleteStudentByIdThrowExceptionWhenStudentIndexIdIsNull() {
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentById(0L));
+	}
+
+	@Test
+	void testDeleteStudentByIdThrowExceptionWhenStudentWithIdNotExist() {
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.deleteStudentById(3L));
+	}
+
+	@Test
 	void testDeleteStudentByEmail() {
 
+	}
+
+	@Test
+	void testDeleteStudentByIdThrowExceptionWhenStudentWithEmailNotExist() {
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.deleteStudentByEmail("asd@gmail.com"));
 	}
 
 }
