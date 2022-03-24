@@ -1,4 +1,7 @@
-# Student Management System   
+# Student Management System
+
+## Introduction
+This project has implemented all the crud operations in a simple way with H2 embedded database, custom exceptions and tests for controller class and service class.
 
 ## Features of this Project
 - Save
@@ -19,11 +22,13 @@
 
 ## Operating Instructions
 - Download source code and import into your code editor (Eclipse, IntelliJ..).
-- Update Maven in project.
+- The project is created with Maven, so you just need to import it to your IDE and build the project to resolve the dependencies
 - If there is no errors, run program.
 - Use [Postman](https://www.postman.com) to check app.
 
-## URL : http://localhost:8080/api/v1/student-ms + 
+## Testing
+### URL : http://localhost:8080/api/v1/student-ms + 
+- ## POST METHOD
 - ### /add
 Add student with this in body: <br/>
 { <br/>
@@ -34,6 +39,7 @@ Add student with this in body: <br/>
     "indexNumber": 183, <br/>
     "onBudget": true <br/>
 }
+- ## GET METHOD
 - ### /all
 List all students from DB.
 
@@ -54,6 +60,7 @@ VALUE: 1999-12-01 <br/>
 KEY: dob2 <br/>
 VALUE: 2004-10-12
 
+- ## DELETE METHOD
 - ### /delete/{id}
 Delete student with ID.
 
