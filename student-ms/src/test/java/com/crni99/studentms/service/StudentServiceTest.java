@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.crni99.studentms.domain.Student;
-import com.crni99.studentms.exception.EmailInUseException;
 import com.crni99.studentms.exception.EmptyInputException;
 import com.crni99.studentms.exception.NoSuchElementException;
 import com.crni99.studentms.storage.StudentRepository;
@@ -77,7 +76,7 @@ class StudentServiceTest {
 
 	@Test
 	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
-
+		
 	}
 
 	@Test
