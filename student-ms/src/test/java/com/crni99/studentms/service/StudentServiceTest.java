@@ -76,7 +76,7 @@ class StudentServiceTest {
 
 	@Test
 	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
-		
+
 	}
 
 	@Test
