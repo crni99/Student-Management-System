@@ -71,12 +71,13 @@ class StudentServiceTest {
 	void saveStudentShouldThrowExceptionWhenOneOfDataIsEmptyOrNull() {
 		Student student = new Student(ID_1, "", LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
-		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student));
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
 	}
 
 	@Test
 	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
-		// DEVELOP CODE FOR THIS
+
 	}
 
 	@Test
@@ -92,7 +93,9 @@ class StudentServiceTest {
 
 	@Test
 	void getAllStudentsShouldThrowExceptionWhenStudentsNotExistInDB() {
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.getAllStudents());
+
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.getAllStudents())
+				.withMessage("Students not found.");
 	}
 
 	@Test
@@ -112,7 +115,8 @@ class StudentServiceTest {
 		studentService.saveStudent(student1);
 		studentService.saveStudent(student2);
 
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.findStudentById(3L));
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.findStudentById(3L))
+				.withMessage("Student with id: 3 does not exist.");
 	}
 
 	@Test
@@ -133,7 +137,8 @@ class StudentServiceTest {
 		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.findStudentByEmail("asd@gmail.com"));
+				.isThrownBy(() -> studentService.findStudentByEmail("asd@gmail.com"))
+				.withMessage("Student with email: asd@gmail.com does not exist.");
 	}
 
 	@Test
@@ -147,8 +152,10 @@ class StudentServiceTest {
 
 	@Test
 	void findStudentByIndexShouldThrowExceptionWhenIndexIsNull() {
+
 		assertThatExceptionOfType(EmptyInputException.class)
-				.isThrownBy(() -> studentService.findStudentByIndexNumber(0));
+				.isThrownBy(() -> studentService.findStudentByIndexNumber(0))
+				.withMessage("You need to provide index number of student to be searched. ID can not be 0.");
 	}
 
 	@Test
@@ -160,7 +167,8 @@ class StudentServiceTest {
 		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.findStudentByIndexNumber(3));
+				.isThrownBy(() -> studentService.findStudentByIndexNumber(3))
+				.withMessage("Student with index: 3 does not exist.");
 	}
 
 	@Test
@@ -189,33 +197,40 @@ class StudentServiceTest {
 		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.getStudentsBetweenTwoDOB(date1, date2));
+				.isThrownBy(() -> studentService.getStudentsBetweenTwoDOB(date1, date2))
+				.withMessage("Students do not exist in this dates of birth: " + date1 + " - " + date2);
 	}
 
 	@Test
-	void testDeleteStudentById() {
+	void shouldDeleteStudentById() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
+		when(studentRepository.findById(ID_1)).thenReturn(Optional.of(student));
+		studentService.deleteStudentById(ID_1);
+		verify(studentRepository).deleteById(ID_1);
 	}
 
 	@Test
-	void deleteStudentByIdShouldThrowExceptionWhenIndexIdIsNull() {
-		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentById(0L));
+	void deleteStudentByIdShouldThrowExceptionWhenIdIsNull() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentById(0L))
+				.withMessage("You need to provide ID of student to be deleted. ID can not be 0.");
 	}
 
 	@Test
-	void deleteStudentByIdShouldThrowExceptionWhenIdNotExist() {
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+	void deleteStudentByIdShouldThrowExceptionWhenIdNotExistInDB() {
 
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
-
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.deleteStudentById(3L));
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.deleteStudentById(3L))
+				.withMessage("Student can not be deleted because student with id: 3 does not exist.");
 	}
 
 	@Test
-	void testDeleteStudentByEmail() {
+	void shouldDeleteStudentByEmail() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
+		when(studentRepository.findStudentByEmail(EMAIL_1)).thenReturn(student);
+		studentService.deleteStudentByEmail(EMAIL_1);
+		verify(studentRepository).deleteStudentByEmail(EMAIL_1);
 	}
 
 	@Test
@@ -227,7 +242,8 @@ class StudentServiceTest {
 		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.deleteStudentByEmail("asd@gmail.com"));
+				.isThrownBy(() -> studentService.deleteStudentByEmail("asd@gmail.com"))
+				.withMessage("Student can not be deleted because student with email: asd@gmail.com does not exist.");
 	}
 
 }
