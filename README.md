@@ -23,7 +23,7 @@ This project has implemented all the crud operations in a simple way with H2 emb
 ## Operating Instructions
 - Download source code and import into your code editor (Eclipse, IntelliJ..).
 - The project is created with Maven, so you just need to import it to your IDE and build the project to resolve the dependencies
-- If there is no errors, run program.
+- If there are no errors, run program.
 - Use [Postman](https://www.postman.com) to check app.
 
 ## Testing
