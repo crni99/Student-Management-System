@@ -24,7 +24,7 @@ This project has implemented all the crud operations in a simple way with H2 emb
 - Download source code and import into your code editor (Eclipse, IntelliJ..).
 - The project is created with Maven, so you just need to import it to your IDE and build the project to resolve the dependencies
 - If there are no errors, run program.
-- Use [Postman](https://www.postman.com) to check app.
+- Use [Postman](https://www.postman.com) to check app or use tests.
 
 ## Testing
 ### URL : http://localhost:8080/api/v1/student-ms + 
