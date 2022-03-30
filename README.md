@@ -34,7 +34,7 @@ Add student with this in body: <br/>
 { <br/>
     "firstName": "Ognjen", <br/>
     "lastName": "Andjelic", <br/>
-    "dateOfBirth": "1999-12-01", <br/>
+    "dateOfBirth": "1994-06-23", <br/>
     "email": "andjelicb.ognjen@gmail.com", <br/>
     "indexNumber": 183, <br/>
     "onBudget": true / false <br/>
@@ -66,8 +66,3 @@ Delete student with ID.
 
 - ### /delete-with-email/{email}
 Delete student with Email.
-
-
-
-
-
