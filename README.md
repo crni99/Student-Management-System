@@ -10,6 +10,7 @@ This project has implemented all the crud operations in a simple way with H2 emb
 - Find by Email
 - Find by Index number
 - Find between two dates of birth
+- Update by ID
 - Delete by ID
 - Delete by Email
 
@@ -59,6 +60,10 @@ KEY: dob1 <br/>
 VALUE: 1999-12-01 <br/>
 KEY: dob2 <br/>
 VALUE: 2004-10-12
+
+- ## PUT METHOD
+- ### /update/{id}
+Update student with ID.
 
 - ## DELETE METHOD
 - ### /delete/{id}
