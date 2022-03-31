@@ -201,6 +201,27 @@ class StudentServiceTest {
 	}
 
 	@Test
+	void shouldUpdateStudentById() {
+		// DEVELOP
+	}
+
+	@Test
+	void updateStudentByIdShouldThrowExceptionWhenIdIsNull() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(
+				() -> studentService.updateStudentById(0L, FIRST_NAME_1, EMAIL_2, DOB_1, EMAIL_1, 183, IS_ON_BUDGET_1))
+				.withMessage("You need to provide ID of student to be deleted. ID can not be 0.");
+	}
+
+	@Test
+	void updateStudentByIdShouldThrowExceptionWhenStudentWithIdNotExistInDb() {
+
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.updateStudentById(ID_1,
+				FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, 183, IS_ON_BUDGET_1))
+				.withMessage("Student with id: 1 does not exist.");
+	}
+
+	@Test
 	void shouldDeleteStudentById() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 

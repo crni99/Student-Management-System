@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
@@ -157,6 +158,17 @@ class StudentControllerTest {
 		String expectedResponse = objectMapper.writeValueAsString(students);
 
 		assertThat(actualResponse).isEqualTo(expectedResponse);
+	}
+
+	@Test
+	void shouldUpdateStudentById() throws Exception {
+		Mockito.doNothing().when(studentService).updateStudentById(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, 183,
+				IS_ON_BUDGET_1);
+
+		String url = "/api/v1/student-ms/update/1";
+		mockMvc.perform(put(url)).andExpect(status().isAccepted());
+
+		verify(studentService, times(1)).updateStudentById(ID_1, null, null, null, null, null, false);
 	}
 
 	@Test

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,6 +65,16 @@ public class StudentController {
 			@RequestParam("dob2") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dob2) {
 		List<Student> students = studentService.getStudentsBetweenTwoDOB(dob1, dob2);
 		return new ResponseEntity<>(students, HttpStatus.OK);
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> updateStudentById(@PathVariable("id") Long id,
+			@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName,
+			@RequestParam(required = false) LocalDate dateOfBirth, @RequestParam(required = false) String email,
+			@RequestParam(required = false) Integer indexNumber, @RequestParam(required = false) boolean isOnBudget) {
+		
+		studentService.updateStudentById(id, firstName, lastName, dateOfBirth, email, indexNumber, isOnBudget);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/delete/{id}")
