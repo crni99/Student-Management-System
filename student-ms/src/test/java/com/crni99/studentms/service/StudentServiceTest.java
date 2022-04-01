@@ -108,11 +108,6 @@ class StudentServiceTest {
 
 	@Test
 	void findStudentByIdShouldThrowExceptionWhenIdIsNull() {
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
-
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.findStudentById(3L))
 				.withMessage("Student with id: 3 does not exist.");
@@ -129,11 +124,6 @@ class StudentServiceTest {
 
 	@Test
 	void findStudentByEmailShouldThrowExceptionWhenEmailNotExist() {
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
-
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
 				.isThrownBy(() -> studentService.findStudentByEmail("asd@gmail.com"))
@@ -159,11 +149,6 @@ class StudentServiceTest {
 
 	@Test
 	void findStudentByIndexShouldThrowExceptionWhenIndexNotExist() {
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
-
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
 				.isThrownBy(() -> studentService.findStudentByIndexNumber(3))
@@ -189,12 +174,6 @@ class StudentServiceTest {
 		LocalDate date1 = LocalDate.of(2001, 8, 25);
 		LocalDate date2 = LocalDate.of(2002, 12, 01);
 
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
-
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
-
 		assertThatExceptionOfType(NoSuchElementException.class)
 				.isThrownBy(() -> studentService.getStudentsBetweenTwoDOB(date1, date2))
 				.withMessage("Students do not exist in this dates of birth: " + date1 + " - " + date2);
@@ -207,17 +186,19 @@ class StudentServiceTest {
 
 	@Test
 	void updateStudentByIdShouldThrowExceptionWhenIdIsNull() {
+		Student student = new Student(ID_1, FIRST_NAME_1, EMAIL_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
-		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(
-				() -> studentService.updateStudentById(0L, FIRST_NAME_1, EMAIL_2, DOB_1, EMAIL_1, 183, IS_ON_BUDGET_1))
+		assertThatExceptionOfType(EmptyInputException.class)
+				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("You need to provide ID of student to be deleted. ID can not be 0.");
 	}
 
 	@Test
 	void updateStudentByIdShouldThrowExceptionWhenStudentWithIdNotExistInDb() {
+		Student student = new Student(ID_1, FIRST_NAME_1, EMAIL_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.updateStudentById(ID_1,
-				FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, 183, IS_ON_BUDGET_1))
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
 
@@ -255,11 +236,6 @@ class StudentServiceTest {
 
 	@Test
 	void deleteStudentByIdShouldThrowExceptionWhenEmailNotExist() {
-		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
-
-		studentService.saveStudent(student1);
-		studentService.saveStudent(student2);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
 				.isThrownBy(() -> studentService.deleteStudentByEmail("asd@gmail.com"))

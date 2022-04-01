@@ -68,13 +68,9 @@ public class StudentController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateStudentById(@PathVariable("id") Long id,
-			@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName,
-			@RequestParam(required = false) LocalDate dateOfBirth, @RequestParam(required = false) String email,
-			@RequestParam(required = false) Integer indexNumber, @RequestParam(required = false) boolean isOnBudget) {
-		
-		studentService.updateStudentById(id, firstName, lastName, dateOfBirth, email, indexNumber, isOnBudget);
-		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	public ResponseEntity<Student> updateStudentById(@RequestBody Student student, @PathVariable("id") Long id) {
+		Student updated = studentService.updateStudentById(student, id);
+		return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/delete/{id}")

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
@@ -20,8 +20,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.crni99.studentms.domain.Student;
 import com.crni99.studentms.service.StudentService;
@@ -160,15 +163,22 @@ class StudentControllerTest {
 		assertThat(actualResponse).isEqualTo(expectedResponse);
 	}
 
+	//		DEVELOP
 	@Test
 	void shouldUpdateStudentById() throws Exception {
-		Mockito.doNothing().when(studentService).updateStudentById(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, 183,
-				IS_ON_BUDGET_1);
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		when(studentService.updateStudentById(student, ID_1)).thenReturn(student);
+		
+		String json = objectMapper.writeValueAsString(student);
 
 		String url = "/api/v1/student-ms/update/1";
-		mockMvc.perform(put(url)).andExpect(status().isAccepted());
-
-		verify(studentService, times(1)).updateStudentById(ID_1, null, null, null, null, null, false);
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put(url)
+				.contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON)
+				.characterEncoding("UTF-8").content(json)
+				.accept(MediaType.APPLICATION_JSON_VALUE);
+		
+		mockMvc.perform(builder).andExpect(status().isAccepted()).andExpect(content().string(json));
 	}
 
 	@Test
