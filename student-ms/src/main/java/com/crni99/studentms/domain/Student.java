@@ -23,33 +23,33 @@ public class Student {
 	@NotBlank(message = "Please input First Name.")
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	
+
 	@NotBlank(message = "Please input Last Name.")
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	
+
 	@NotBlank(message = "Please input Date of Birth.")
 	@Column(name = "date_of_birth", nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
-	
+
 	@NotBlank(message = "Please input Email.")
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@NotBlank(message = "Please input Index Number.")
 	@Column(name = "index_number", nullable = false)
-	private int indexNumber;
-	
+	private Integer indexNumber;
+
 	@NotBlank(message = "Please input is it on Budget.")
 	@Column(name = "is_on_budget", nullable = false)
-	private boolean isOnBudget;
+	private Boolean isOnBudget;
 
 	public Student() {
 	}
 
-	public Student(Long id, String firstName, String lastName, LocalDate dateOfBirth, String email, int indexNumber,
-			boolean isOnBudget) {
+	public Student(Long id, String firstName, String lastName, LocalDate dateOfBirth, String email, Integer indexNumber,
+			Boolean isOnBudget) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -99,19 +99,19 @@ public class Student {
 		this.email = email;
 	}
 
-	public int getIndexNumber() {
+	public Integer getIndexNumber() {
 		return indexNumber;
 	}
 
-	public void setIndexNumber(int indexNumber) {
+	public void setIndexNumber(Integer indexNumber) {
 		this.indexNumber = indexNumber;
 	}
 
-	public boolean isOnBudget() {
+	public Boolean getIsOnBudget() {
 		return isOnBudget;
 	}
 
-	public void setOnBudget(boolean isOnBudget) {
+	public void setIsOnBudget(Boolean isOnBudget) {
 		this.isOnBudget = isOnBudget;
 	}
 

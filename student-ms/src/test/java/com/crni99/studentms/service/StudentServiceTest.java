@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -28,16 +29,16 @@ class StudentServiceTest {
 	private static final String LAST_NAME_1 = "Andjelic";
 	private static final LocalDate DOB_1 = LocalDate.of(1999, 12, 01);
 	private static final String EMAIL_1 = "andjelicb.ognjen@gmail.com";
-	private static final int INDEX_1 = 183;
-	private static final boolean IS_ON_BUDGET_1 = true;
+	private static final Integer INDEX_1 = 183;
+	private static final Boolean IS_ON_BUDGET_1 = true;
 
 	private static final Long ID_2 = 2L;
 	private static final String FIRST_NAME_2 = "Nikola";
 	private static final String LAST_NAME_2 = "Petrovic";
 	private static final LocalDate DOB_2 = LocalDate.of(1999, 8, 25);
 	private static final String EMAIL_2 = "nikola@gmail.com";
-	private static final int INDEX_2 = 169;
-	private static final boolean IS_ON_BUDGET_2 = false;
+	private static final Integer INDEX_2 = 169;
+	private static final Boolean IS_ON_BUDGET_2 = false;
 
 	@Mock
 	private StudentRepository studentRepository;
@@ -181,24 +182,14 @@ class StudentServiceTest {
 
 	@Test
 	void shouldUpdateStudentById() {
-		// DEVELOP
-	}
-
-	@Test
-	void updateStudentByIdShouldThrowExceptionWhenIdIsNull() {
-		Student student = new Student(ID_1, FIRST_NAME_1, EMAIL_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
-
-		assertThatExceptionOfType(EmptyInputException.class)
-				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
-				.withMessage("You need to provide ID of student to be deleted. ID can not be 0.");
+		
 	}
 
 	@Test
 	void updateStudentByIdShouldThrowExceptionWhenStudentWithIdNotExistInDb() {
-		Student student = new Student(ID_1, FIRST_NAME_1, EMAIL_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
+				.isThrownBy(() -> studentService.updateStudentById(ArgumentMatchers.any(), ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
 

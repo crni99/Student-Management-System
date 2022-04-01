@@ -2,6 +2,7 @@ package com.crni99.studentms.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -75,19 +76,58 @@ public class StudentService {
 		return students;
 	}
 
-	@Transactional
 	public Student updateStudentById(Student student, Long id) {
-		Optional<Student> studentOptional = studentRepository.findStudentById(id);
+		Student updateStudent = new Student();
 
-		if (!studentOptional.isPresent()) {
+		Optional<Student> studentDB = studentRepository.findStudentById(id);
+		if (!studentDB.isPresent()) {
 			throw new NoSuchElementException("Student with id: " + id + " does not exist.");
 		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
 		if (checkIfStudentWithEmailExist != null) {
 			throw new EmailInUseException("Email already in use.");
 		}
-		student.setId(id);
-		return studentRepository.save(student);
+
+		if (student.getFirstName() != null && student.getFirstName().length() > 0
+				&& !Objects.equals(student.getFirstName(), studentDB.get().getFirstName())) {
+			updateStudent.setFirstName(student.getFirstName());
+		} else {
+			updateStudent.setFirstName(studentDB.get().getFirstName());
+		}
+		if (student.getLastName() != null && student.getLastName().length() > 0
+				&& !Objects.equals(student.getLastName(), studentDB.get().getLastName())) {
+			updateStudent.setLastName(student.getLastName());
+		} else {
+			updateStudent.setLastName(studentDB.get().getLastName());
+		}
+		if (student.getDateOfBirth() != null
+				&& !Objects.equals(student.getDateOfBirth(), studentDB.get().getDateOfBirth())) {
+			updateStudent.setDateOfBirth(student.getDateOfBirth());
+		} else {
+			updateStudent.setDateOfBirth(studentDB.get().getDateOfBirth());
+		}
+		if (student.getEmail() != null && student.getEmail().length() > 0
+				&& !Objects.equals(student.getEmail(), studentDB.get().getEmail())) {
+			updateStudent.setEmail(student.getEmail());
+		} else {
+			updateStudent.setEmail(studentDB.get().getEmail());
+		}
+		String length = String.valueOf(student.getIndexNumber());
+		if (student.getIndexNumber() != null && length.length() > 0
+				&& !Objects.equals(student.getIndexNumber(), studentDB.get().getIndexNumber())) {
+			updateStudent.setIndexNumber(student.getIndexNumber());
+		} else {
+			updateStudent.setIndexNumber(studentDB.get().getIndexNumber());
+		}
+		if (student.getIsOnBudget() != null
+				&& !Objects.equals(student.getIsOnBudget(), studentDB.get().getIsOnBudget())) {
+			updateStudent.setIsOnBudget(student.getIsOnBudget());
+		} else {
+			updateStudent.setIsOnBudget(studentDB.get().getIsOnBudget());
+		}
+
+		updateStudent.setId(id);
+		return studentRepository.save(updateStudent);
 	}
 
 	public void deleteStudentById(Long id) {

@@ -4,7 +4,7 @@ CREATE TABLE STUDENTS (
 	last_name VARCHAR(50) NOT NULL,
 	date_of_birth DATE NOT NULL,
 	email VARCHAR(128) NOT NULL,
-	index_number INT NOT NULL,
+	index_number INTEGER NOT NULL,
 	is_on_budget BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );
