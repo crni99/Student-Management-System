@@ -63,7 +63,9 @@ VALUE: 2004-10-12
 
 - ## PUT METHOD
 - ### /update/{id}
-Update student with ID.
+Update student with ID. <br/>
+Add data in the body like saving student but you don't need to input all fields. <br/>
+Input only fields that you want to change.
 
 - ## DELETE METHOD
 - ### /delete/{id}
