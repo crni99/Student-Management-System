@@ -38,7 +38,7 @@ Add student with this in body: <br/>
     "dateOfBirth": "1994-06-23", <br/>
     "email": "andjelicb.ognjen@gmail.com", <br/>
     "indexNumber": 101, <br/>
-    "onBudget": true / false <br/>
+    "isOnBudget": true / false <br/>
 }
 - ## GET METHOD
 - ### /all
