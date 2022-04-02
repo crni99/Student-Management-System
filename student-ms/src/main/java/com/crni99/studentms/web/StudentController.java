@@ -54,9 +54,9 @@ public class StudentController {
 	}
 
 	@GetMapping("/index/{index}")
-	public ResponseEntity<Student> findStudentByIndexNumber(@PathVariable("index") int indexNumber) {
-		Student student = studentService.findStudentByIndexNumber(indexNumber);
-		return new ResponseEntity<>(student, HttpStatus.OK);
+	public ResponseEntity<List<Student>> findStudentsByIndexNumber(@PathVariable("index") Integer indexNumber) {
+		List<Student> students = studentService.findStudentsByIndexNumber(indexNumber);
+		return new ResponseEntity<>(students, HttpStatus.OK);
 	}
 
 	@GetMapping("/date-of-birth")

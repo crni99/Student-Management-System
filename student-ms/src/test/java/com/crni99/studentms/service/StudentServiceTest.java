@@ -132,19 +132,23 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void shouldFindStudentByIndexNumber() {
-		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+	void shouldFindStudentsByIndexNumber() {
+		List<Student> students = new ArrayList<>();
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+		students.add(student1);
+		students.add(student2);
 
-		when(studentRepository.findStudentByIndexNumber(INDEX_1)).thenReturn(student);
+		when(studentRepository.findStudentsByIndexNumber(INDEX_1)).thenReturn(students);
 
-		assertThat(studentService.findStudentByIndexNumber(INDEX_1)).isEqualTo(student);
+		assertThat(studentService.findStudentsByIndexNumber(INDEX_1)).isEqualTo(students);
 	}
 
 	@Test
 	void findStudentByIndexShouldThrowExceptionWhenIndexIsNull() {
 
 		assertThatExceptionOfType(EmptyInputException.class)
-				.isThrownBy(() -> studentService.findStudentByIndexNumber(0))
+				.isThrownBy(() -> studentService.findStudentsByIndexNumber(0))
 				.withMessage("You need to provide index number of student to be searched. ID can not be 0.");
 	}
 
@@ -152,8 +156,8 @@ class StudentServiceTest {
 	void findStudentByIndexShouldThrowExceptionWhenIndexNotExist() {
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.findStudentByIndexNumber(3))
-				.withMessage("Student with index: 3 does not exist.");
+				.isThrownBy(() -> studentService.findStudentsByIndexNumber(11))
+				.withMessage("Students with index: 11 does not exist.");
 	}
 
 	@Test

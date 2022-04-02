@@ -25,7 +25,8 @@ public class StudentService {
 
 	public Student saveStudent(Student student) {
 		if (student == null || student.getFirstName().isEmpty() || student.getLastName().isEmpty()
-				|| student.getEmail().isEmpty() || student.getDateOfBirth() == null || student.getIndexNumber() == 0) {
+				|| student.getEmail().isEmpty() || student.getDateOfBirth() == null || student.getIndexNumber() == null
+				|| student.getIndexNumber() == 0 || student.getIsOnBudget() == null) {
 			throw new EmptyInputException("You need to input all fields.");
 		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
@@ -56,14 +57,14 @@ public class StudentService {
 		return checkIfStudentWithEmailExist;
 	}
 
-	public Student findStudentByIndexNumber(int indexNumber) {
-		if (indexNumber == 0) {
+	public List<Student> findStudentsByIndexNumber(Integer indexNumber) {
+		if (indexNumber == null || indexNumber == 0) {
 			throw new EmptyInputException(
 					"You need to provide index number of student to be searched. ID can not be 0.");
 		}
-		Student checkIfStudentWithIndexExist = studentRepository.findStudentByIndexNumber(indexNumber);
-		if (checkIfStudentWithIndexExist == null) {
-			throw new NoSuchElementException("Student with index: " + indexNumber + " does not exist.");
+		List<Student> checkIfStudentWithIndexExist = studentRepository.findStudentsByIndexNumber(indexNumber);
+		if (checkIfStudentWithIndexExist.isEmpty()) {
+			throw new NoSuchElementException("Students with index: " + indexNumber + " does not exist.");
 		}
 		return checkIfStudentWithIndexExist;
 	}

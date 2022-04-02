@@ -21,7 +21,7 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
 	Student findStudentByEmail(@Param("email") String email);
 
 	@Query(value = "SELECT * FROM students WHERE index_number = :indexNumber", nativeQuery = true)
-	Student findStudentByIndexNumber(@Param("indexNumber") int indexNumber);
+	List<Student> findStudentsByIndexNumber(@Param("indexNumber") int indexNumber);
 
 	@Query(value = "SELECT * FROM students WHERE date_of_birth BETWEEN :dob1 AND :dob2", nativeQuery = true)
 	List<Student> findBetweenTwoDOB(@Param("dob1") LocalDate dob1, @Param("dob2") LocalDate dob2);

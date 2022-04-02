@@ -39,16 +39,16 @@ class StudentControllerTest {
 	private static final String LAST_NAME_1 = "Andjelic";
 	private static final LocalDate DOB_1 = LocalDate.of(1999, 12, 01);
 	private static final String EMAIL_1 = "andjelicb.ognjen@gmail.com";
-	private static final int INDEX_1 = 183;
-	private static final boolean IS_ON_BUDGET_1 = true;
+	private static final Integer INDEX_1 = 183;
+	private static final Boolean IS_ON_BUDGET_1 = true;
 
 	private static final Long ID_2 = 2L;
 	private static final String FIRST_NAME_2 = "Nikola";
 	private static final String LAST_NAME_2 = "Petrovic";
 	private static final LocalDate DOB_2 = LocalDate.of(1999, 8, 25);
 	private static final String EMAIL_2 = "nikola@gmail.com";
-	private static final int INDEX_2 = 169;
-	private static final boolean IS_ON_BUDGET_2 = false;
+	private static final Integer INDEX_2 = 169;
+	private static final Boolean IS_ON_BUDGET_2 = false;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -131,15 +131,19 @@ class StudentControllerTest {
 
 	@Test
 	void shouldFindStudentByIndexNumber() throws Exception {
-		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		List<Student> students = new ArrayList<>();
+		Student student1 = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+		Student student2 = new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2);
+		students.add(student1);
+		students.add(student2);
 
-		when(studentService.findStudentByIndexNumber(INDEX_1)).thenReturn(student);
+		when(studentService.findStudentsByIndexNumber(INDEX_1)).thenReturn(students);
 		String url = "/api/v1/student-ms/index/183";
 
 		MvcResult mvcResult = mockMvc.perform(get(url)).andExpect(status().isOk()).andReturn();
 		String actualResponse = mvcResult.getResponse().getContentAsString();
 
-		String expectedResponse = objectMapper.writeValueAsString(student);
+		String expectedResponse = objectMapper.writeValueAsString(students);
 
 		assertThat(actualResponse).isEqualTo(expectedResponse);
 	}
