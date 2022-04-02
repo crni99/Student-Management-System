@@ -62,11 +62,11 @@ public class StudentService {
 			throw new EmptyInputException(
 					"You need to provide index number of student to be searched. ID can not be 0.");
 		}
-		List<Student> checkIfStudentWithIndexExist = studentRepository.findStudentsByIndexNumber(indexNumber);
-		if (checkIfStudentWithIndexExist.isEmpty()) {
+		List<Student> students = studentRepository.findStudentsByIndexNumber(indexNumber);
+		if (students.isEmpty()) {
 			throw new NoSuchElementException("Students with index: " + indexNumber + " does not exist.");
 		}
-		return checkIfStudentWithIndexExist;
+		return students;
 	}
 
 	public List<Student> getStudentsBetweenTwoDOB(LocalDate dob1, LocalDate dob2) {
