@@ -25,7 +25,8 @@ public class StudentService {
 	}
 
 	public Student saveStudent(Student student) {
-		if (student == null || StringUtils.isBlank(student.getFirstName()) || StringUtils.isBlank(student.getLastName())
+		if (student == null 
+				|| StringUtils.isBlank(student.getFirstName()) || StringUtils.isBlank(student.getLastName())
 				|| StringUtils.isBlank(student.getEmail()) || student.getDateOfBirth() == null
 				|| student.getIndexNumber() == null || student.getIndexNumber() == 0
 				|| student.getIsOnBudget() == null) {

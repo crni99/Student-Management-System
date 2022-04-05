@@ -55,6 +55,7 @@ class StudentServiceTest {
 	void testStudentService() {
 	}
 
+	// SAVE
 	@Test
 	void shouldSaveStudent() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
@@ -68,8 +69,120 @@ class StudentServiceTest {
 	}
 
 	@Test
-	void saveStudentShouldThrowExceptionWhenOneOfDataIsEmptyOrNull() {
+	void saveStudentShouldThrowExceptionWhenStudentParametersIsNull() {
+		Student student = new Student(null, null, null, null, null, null, null);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenStudentIsNull() {
+		Student student = null;
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenFirstNameIsNull() {
+		Student student = new Student(ID_1, null, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenFirstNameIsEmpty() {
 		Student student = new Student(ID_1, "", LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenFirstNameIsEmptyWithSpace() {
+		Student student = new Student(ID_1, " ", LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenLastNameIsNull() {
+		Student student = new Student(ID_1, FIRST_NAME_1, null, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenLastNameIsEmpty() {
+		Student student = new Student(ID_1, FIRST_NAME_1, "", DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenLastNameIsEmptyWithSpace() {
+		Student student = new Student(ID_1, FIRST_NAME_1, " ", DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenDobIsEmpty() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, null, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenEmailIsNull() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, null, INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenEmailIsEmpty() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, "", INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenEmailIsEmptyWithSpace() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, " ", INDEX_1, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenIndexIsEmpty() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, null, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenIndexIs0() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, 0, IS_ON_BUDGET_1);
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
+				.withMessage("You need to input all fields.");
+	}
+
+	@Test
+	void saveStudentShouldThrowExceptionWhenIsOnBudgetIsEmpty() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, null);
 
 		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.saveStudent(student))
 				.withMessage("You need to input all fields.");
@@ -81,8 +194,9 @@ class StudentServiceTest {
 		
 	}
 
+	// GET ALL
 	@Test
-	void shouldGetAllStudents() throws Exception {
+	void shouldGetAllStudents() {
 		List<Student> students = new ArrayList<>();
 		students.add(new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1));
 		students.add(new Student(ID_2, FIRST_NAME_2, LAST_NAME_2, DOB_2, EMAIL_2, INDEX_2, IS_ON_BUDGET_2));
@@ -99,6 +213,7 @@ class StudentServiceTest {
 				.withMessage("Students not found.");
 	}
 
+	// FIND BY ID
 	@Test
 	void shouldFindStudentById() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
@@ -115,6 +230,7 @@ class StudentServiceTest {
 				.withMessage("Student with id: 3 does not exist.");
 	}
 
+	// FIND BY EMAIL
 	@Test
 	void shouldFindStudentByEmail() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
@@ -125,6 +241,27 @@ class StudentServiceTest {
 	}
 
 	@Test
+	void findStudentByEmailShouldThrowExceptionWhenEmailIsNull() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.findStudentByEmail(null))
+				.withMessage("Email not valid.");
+	}
+
+	@Test
+	void findStudentByEmailShouldThrowExceptionWhenEmailIsEmpty() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.findStudentByEmail(""))
+				.withMessage("Email not valid.");
+	}
+
+	@Test
+	void findStudentByEmailShouldThrowExceptionWhenEmailIsEmptyWithSpace() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.findStudentByEmail(" "))
+				.withMessage("Email not valid.");
+	}
+
+	@Test
 	void findStudentByEmailShouldThrowExceptionWhenEmailNotExist() {
 
 		assertThatExceptionOfType(NoSuchElementException.class)
@@ -132,6 +269,7 @@ class StudentServiceTest {
 				.withMessage("Student with email: asd@gmail.com does not exist.");
 	}
 
+	// FIND BY INDEX NUMBER
 	@Test
 	void shouldFindStudentsByIndexNumber() {
 		List<Student> students = new ArrayList<>();
@@ -149,6 +287,14 @@ class StudentServiceTest {
 	void findStudentByIndexShouldThrowExceptionWhenIndexIsNull() {
 
 		assertThatExceptionOfType(EmptyInputException.class)
+				.isThrownBy(() -> studentService.findStudentsByIndexNumber(null))
+				.withMessage("You need to provide index number of student to be searched. ID can not be 0.");
+	}
+
+	@Test
+	void findStudentByIndexShouldThrowExceptionWhenIndexIs0() {
+
+		assertThatExceptionOfType(EmptyInputException.class)
 				.isThrownBy(() -> studentService.findStudentsByIndexNumber(0))
 				.withMessage("You need to provide index number of student to be searched. ID can not be 0.");
 	}
@@ -161,6 +307,7 @@ class StudentServiceTest {
 				.withMessage("Students with index: 11 does not exist.");
 	}
 
+	// GET BETWEEN TWO DOB
 	@Test
 	void shouldGetStudentsBetweenTwoDOB() {
 		LocalDate date1 = LocalDate.of(1998, 8, 25);
@@ -185,7 +332,7 @@ class StudentServiceTest {
 				.withMessage("Students do not exist in this dates of birth: " + date1 + " - " + date2);
 	}
 
-	// DEVELOP
+	// UPDATE BY ID - DEVELOP
 	@Test
 	void shouldUpdateStudentById() {
 
@@ -199,6 +346,7 @@ class StudentServiceTest {
 				.withMessage("Student with id: 1 does not exist.");
 	}
 
+	// DELETE BY ID
 	@Test
 	void shouldDeleteStudentById() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
@@ -222,6 +370,7 @@ class StudentServiceTest {
 				.withMessage("Student can not be deleted because student with id: 3 does not exist.");
 	}
 
+	// DELETE BY EMAIL
 	@Test
 	void shouldDeleteStudentByEmail() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
@@ -229,6 +378,27 @@ class StudentServiceTest {
 		when(studentRepository.findStudentByEmail(EMAIL_1)).thenReturn(student);
 		studentService.deleteStudentByEmail(EMAIL_1);
 		verify(studentRepository).deleteStudentByEmail(EMAIL_1);
+	}
+
+	@Test
+	void deleteStudentByIdShouldThrowExceptionWhenEmailIsNull() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentByEmail(null))
+				.withMessage("Email not valid.");
+	}
+
+	@Test
+	void deleteStudentByIdShouldThrowExceptionWhenEmailIsEmpty() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentByEmail(""))
+				.withMessage("Email not valid.");
+	}
+
+	@Test
+	void deleteStudentByIdShouldThrowExceptionWhenEmailIsEmptyWithSpace() {
+
+		assertThatExceptionOfType(EmptyInputException.class).isThrownBy(() -> studentService.deleteStudentByEmail(" "))
+				.withMessage("Email not valid.");
 	}
 
 	@Test
