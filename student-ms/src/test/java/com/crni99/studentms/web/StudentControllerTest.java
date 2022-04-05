@@ -1,6 +1,7 @@
 package com.crni99.studentms.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -174,7 +174,7 @@ class StudentControllerTest {
 		student.setId(1L);
 		student.setFirstName("John");
 
-		Mockito.when(studentService.updateStudentById(ArgumentMatchers.any(), ArgumentMatchers.any()))
+		when(studentService.updateStudentById(ArgumentMatchers.any(), ArgumentMatchers.any()))
 				.thenReturn(student);
 		String json = objectMapper.writeValueAsString(student);
 
@@ -187,7 +187,7 @@ class StudentControllerTest {
 
 	@Test
 	void shouldDeleteStudentById() throws Exception {
-		Mockito.doNothing().when(studentService).deleteStudentById(ID_1);
+		doNothing().when(studentService).deleteStudentById(ID_1);
 
 		String url = "/api/v1/student-ms/delete/1";
 		mockMvc.perform(delete(url)).andExpect(status().isAccepted());
@@ -197,7 +197,7 @@ class StudentControllerTest {
 
 	@Test
 	void shouldDeleteStudentByEmail() throws Exception {
-		Mockito.doNothing().when(studentService).deleteStudentByEmail(EMAIL_1);
+		doNothing().when(studentService).deleteStudentByEmail(EMAIL_1);
 
 		String url = "/api/v1/student-ms/delete-with-email//andjelicb.ognjen@gmail.com";
 		mockMvc.perform(delete(url)).andExpect(status().isAccepted());

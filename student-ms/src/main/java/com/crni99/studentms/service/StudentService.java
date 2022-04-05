@@ -87,7 +87,7 @@ public class StudentService {
 		Student updateStudent = new Student();
 
 		Optional<Student> studentDB = studentRepository.findStudentById(id);
-		if (!studentDB.isPresent()) {
+		if (studentDB.isEmpty()) {
 			throw new NoSuchElementException("Student with id: " + id + " does not exist.");
 		}
 		if (StringUtils.isNotBlank(student.getFirstName())
@@ -119,8 +119,8 @@ public class StudentService {
 		} else {
 			updateStudent.setEmail(studentDB.get().getEmail());
 		}
-		String length = String.valueOf(student.getIndexNumber());
-		if (student.getIndexNumber() != null && length.length() > 0
+		String indexNumberLength = String.valueOf(student.getIndexNumber());
+		if (student.getIndexNumber() != null && indexNumberLength.length() > 0
 				&& !Objects.equals(student.getIndexNumber(), studentDB.get().getIndexNumber())) {
 			updateStudent.setIndexNumber(student.getIndexNumber());
 		} else {

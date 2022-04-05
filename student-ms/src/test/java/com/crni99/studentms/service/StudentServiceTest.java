@@ -13,7 +13,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -191,7 +190,7 @@ class StudentServiceTest {
 	// DEVELOP
 	@Test
 	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
-		
+
 	}
 
 	// GET ALL
@@ -335,14 +334,33 @@ class StudentServiceTest {
 	// UPDATE BY ID - DEVELOP
 	@Test
 	void shouldUpdateStudentById() {
+		
+	}
 
+	@Test
+	void updateStudentByIdShouldThrowExceptionWhenStudentIsNull() {
+		Student student = null;
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
+				.withMessage("Student with id: 1 does not exist.");
+	}
+
+	@Test
+	void updateStudentByIdShouldThrowExceptionWhenStudentParametersIsNull() {
+		Student student = new Student(null, null, null, null, null, null, null);
+
+		assertThatExceptionOfType(NoSuchElementException.class)
+				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
+				.withMessage("Student with id: 1 does not exist.");
 	}
 
 	@Test
 	void updateStudentByIdShouldThrowExceptionWhenStudentWithIdNotExistInDb() {
+		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
 		assertThatExceptionOfType(NoSuchElementException.class)
-				.isThrownBy(() -> studentService.updateStudentById(ArgumentMatchers.any(), ID_1))
+				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
 
