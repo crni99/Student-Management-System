@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,29 +18,17 @@ public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@NotBlank(message = "Please input First Name.")
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-
-	@NotBlank(message = "Please input Last Name.")
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-
-	@NotBlank(message = "Please input Date of Birth.")
 	@Column(name = "date_of_birth", nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfBirth;
-
-	@NotBlank(message = "Please input Email.")
 	@Column(name = "email", nullable = false)
 	private String email;
-
-	@NotBlank(message = "Please input Index Number.")
 	@Column(name = "index_number", nullable = false)
 	private Integer indexNumber;
-
-	@NotBlank(message = "Please input is it on Budget.")
 	@Column(name = "is_on_budget", nullable = false)
 	private Boolean isOnBudget;
 

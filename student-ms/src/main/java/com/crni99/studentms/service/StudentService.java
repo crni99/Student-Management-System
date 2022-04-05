@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,10 @@ public class StudentService {
 	}
 
 	public Student saveStudent(Student student) {
-		if (student == null || student.getFirstName().isEmpty() || student.getLastName().isEmpty()
-				|| student.getEmail().isEmpty() || student.getDateOfBirth() == null || student.getIndexNumber() == null
-				|| student.getIndexNumber() == 0 || student.getIsOnBudget() == null) {
+		if (student == null || StringUtils.isBlank(student.getFirstName()) || StringUtils.isBlank(student.getLastName())
+				|| StringUtils.isBlank(student.getEmail()) || student.getDateOfBirth() == null
+				|| student.getIndexNumber() == null || student.getIndexNumber() == 0
+				|| student.getIsOnBudget() == null) {
 			throw new EmptyInputException("You need to input all fields.");
 		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
@@ -50,6 +52,9 @@ public class StudentService {
 	}
 
 	public Student findStudentByEmail(String email) {
+		if (StringUtils.isBlank(email)) {
+			throw new EmptyInputException("Email not valid.");
+		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(email);
 		if (checkIfStudentWithEmailExist == null) {
 			throw new NoSuchElementException("Student with email: " + email + " does not exist.");
@@ -84,18 +89,13 @@ public class StudentService {
 		if (!studentDB.isPresent()) {
 			throw new NoSuchElementException("Student with id: " + id + " does not exist.");
 		}
-		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
-		if (checkIfStudentWithEmailExist != null) {
-			throw new EmailInUseException("Email already in use.");
-		}
-
-		if (student.getFirstName() != null && student.getFirstName().length() > 0
+		if (StringUtils.isNotBlank(student.getFirstName())
 				&& !Objects.equals(student.getFirstName(), studentDB.get().getFirstName())) {
 			updateStudent.setFirstName(student.getFirstName());
 		} else {
 			updateStudent.setFirstName(studentDB.get().getFirstName());
 		}
-		if (student.getLastName() != null && student.getLastName().length() > 0
+		if (StringUtils.isNotBlank(student.getLastName())
 				&& !Objects.equals(student.getLastName(), studentDB.get().getLastName())) {
 			updateStudent.setLastName(student.getLastName());
 		} else {
@@ -107,8 +107,13 @@ public class StudentService {
 		} else {
 			updateStudent.setDateOfBirth(studentDB.get().getDateOfBirth());
 		}
-		if (student.getEmail() != null && student.getEmail().length() > 0
+		if (StringUtils.isNotBlank(student.getEmail())
 				&& !Objects.equals(student.getEmail(), studentDB.get().getEmail())) {
+
+			Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(student.getEmail());
+			if (checkIfStudentWithEmailExist != null) {
+				throw new EmailInUseException("Email already in use.");
+			}
 			updateStudent.setEmail(student.getEmail());
 		} else {
 			updateStudent.setEmail(studentDB.get().getEmail());
@@ -145,6 +150,9 @@ public class StudentService {
 
 	@Transactional
 	public void deleteStudentByEmail(String email) {
+		if (StringUtils.isBlank(email)) {
+			throw new EmptyInputException("Email not valid.");
+		}
 		Student checkIfStudentWithEmailExist = studentRepository.findStudentByEmail(email);
 		if (checkIfStudentWithEmailExist == null) {
 			throw new NoSuchElementException(
