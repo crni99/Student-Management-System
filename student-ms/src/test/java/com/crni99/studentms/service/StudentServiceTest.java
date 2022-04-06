@@ -38,7 +38,7 @@ class StudentServiceTest {
 	private static final String EMAIL_2 = "nikola@gmail.com";
 	private static final Integer INDEX_2 = 169;
 	private static final Boolean IS_ON_BUDGET_2 = false;
-
+	
 	@Mock
 	private StudentRepository studentRepository;
 
@@ -190,7 +190,7 @@ class StudentServiceTest {
 	// DEVELOP
 	@Test
 	void saveStudentShouldThrowExceptionWhenStudentWithSameEmailExist() {
-
+		
 	}
 
 	// GET ALL
