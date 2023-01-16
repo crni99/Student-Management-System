@@ -27,7 +27,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.crni99.studentms.domain.Student;
+import com.crni99.studentms.controller.StudentController;
+import com.crni99.studentms.model.Student;
 import com.crni99.studentms.service.StudentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

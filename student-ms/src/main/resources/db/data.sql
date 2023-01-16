@@ -12,18 +12,16 @@ INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_num
 				 	 
 INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
 				 	 (5, 'Chelsey', 'Woods', '1999-06-12', 'woordsc@gmail.com', 236, false);
-				 	 
-INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
-				 	 (6, 'Steven', 'Ray', '1996-05-18', 'steven.ray@gmail.com', 862, false);
-				 	 
-INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
-				 	 (7, 'Cheyenne', 'Sherman', '1997-04-06', 'cheyenne.sherman@gmail.com', 56, true);
-				 	 
-INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
-				 	 (8, 'James', 'Callahan', '2000-03-26', 'james.c@gmail.com', 345, true);
-				 	 
-INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
-				 	 (9, 'Jason', 'Saunders', '2001-08-01', 'saunders.j@gmail.com', 987, true);
-				 	 
-INSERT INTO STUDENTS (id, first_name, last_name, date_of_birth, email, index_number, is_on_budget) VALUES 
-				 	 (10, 'Aaron', 'Gordon', '2002-03-17', 'aa.gordon@gmail.com', 56, false);
+
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (1, 'Data Science', 'Data Science description',5);
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (2, 'Mathematics', 'Mathematics description',4);
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (3, 'Programming Fundamentals', 'Prog. Fundamentals description',3);
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (4, 'Data Structures and Algorithms', 'Data Struc. and Algo. description',2);
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (5, 'Web Development', 'Web Dev description',1);
+INSERT INTO PROJECTS (id, project_name, project_description, student_id) VALUES 
+					 (6, 'Database Systems', 'Database Sys. description',2);

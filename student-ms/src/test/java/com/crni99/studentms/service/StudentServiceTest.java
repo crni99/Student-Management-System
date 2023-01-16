@@ -16,10 +16,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.crni99.studentms.domain.Student;
 import com.crni99.studentms.exception.EmptyInputException;
-import com.crni99.studentms.exception.NoSuchElementException;
-import com.crni99.studentms.storage.StudentRepository;
+import com.crni99.studentms.exception.StudentNotFoundException;
+import com.crni99.studentms.model.Student;
+import com.crni99.studentms.repository.ProjectRepository;
+import com.crni99.studentms.repository.StudentRepository;
 
 class StudentServiceTest {
 
@@ -41,13 +42,16 @@ class StudentServiceTest {
 	
 	@Mock
 	private StudentRepository studentRepository;
+	
+	@Mock
+	private ProjectRepository projectRepository;
 
 	private StudentService studentService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		studentService = new StudentService(studentRepository);
+		studentService = new StudentService(studentRepository, projectRepository);
 	}
 
 	@Test
@@ -208,7 +212,7 @@ class StudentServiceTest {
 	@Test
 	void getAllStudentsShouldThrowExceptionWhenStudentsNotExistInDB() {
 
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.getAllStudents())
+		assertThatExceptionOfType(StudentNotFoundException.class).isThrownBy(() -> studentService.getAllStudents())
 				.withMessage("Students not found.");
 	}
 
@@ -225,7 +229,7 @@ class StudentServiceTest {
 	@Test
 	void findStudentByIdShouldThrowExceptionWhenIdIsNull() {
 
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.findStudentById(3L))
+		assertThatExceptionOfType(StudentNotFoundException.class).isThrownBy(() -> studentService.findStudentById(3L))
 				.withMessage("Student with id: 3 does not exist.");
 	}
 
@@ -263,7 +267,7 @@ class StudentServiceTest {
 	@Test
 	void findStudentByEmailShouldThrowExceptionWhenEmailNotExist() {
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.findStudentByEmail("asd@gmail.com"))
 				.withMessage("Student with email: asd@gmail.com does not exist.");
 	}
@@ -301,7 +305,7 @@ class StudentServiceTest {
 	@Test
 	void findStudentByIndexShouldThrowExceptionWhenIndexNotExist() {
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.findStudentsByIndexNumber(11))
 				.withMessage("Students with index: 11 does not exist.");
 	}
@@ -326,7 +330,7 @@ class StudentServiceTest {
 		LocalDate date1 = LocalDate.of(2001, 8, 25);
 		LocalDate date2 = LocalDate.of(2002, 12, 01);
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.getStudentsBetweenTwoDOB(date1, date2))
 				.withMessage("Students do not exist in this dates of birth: " + date1 + " - " + date2);
 	}
@@ -341,7 +345,7 @@ class StudentServiceTest {
 	void updateStudentByIdShouldThrowExceptionWhenStudentIsNull() {
 		Student student = null;
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
@@ -350,7 +354,7 @@ class StudentServiceTest {
 	void updateStudentByIdShouldThrowExceptionWhenStudentParametersIsNull() {
 		Student student = new Student(null, null, null, null, null, null, null);
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
@@ -359,7 +363,7 @@ class StudentServiceTest {
 	void updateStudentByIdShouldThrowExceptionWhenStudentWithIdNotExistInDb() {
 		Student student = new Student(ID_1, FIRST_NAME_1, LAST_NAME_1, DOB_1, EMAIL_1, INDEX_1, IS_ON_BUDGET_1);
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.updateStudentById(student, ID_1))
 				.withMessage("Student with id: 1 does not exist.");
 	}
@@ -384,7 +388,7 @@ class StudentServiceTest {
 	@Test
 	void deleteStudentByIdShouldThrowExceptionWhenIdNotExistInDB() {
 
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> studentService.deleteStudentById(3L))
+		assertThatExceptionOfType(StudentNotFoundException.class).isThrownBy(() -> studentService.deleteStudentById(3L))
 				.withMessage("Student can not be deleted because student with id: 3 does not exist.");
 	}
 
@@ -422,7 +426,7 @@ class StudentServiceTest {
 	@Test
 	void deleteStudentByIdShouldThrowExceptionWhenEmailNotExist() {
 
-		assertThatExceptionOfType(NoSuchElementException.class)
+		assertThatExceptionOfType(StudentNotFoundException.class)
 				.isThrownBy(() -> studentService.deleteStudentByEmail("asd@gmail.com"))
 				.withMessage("Student can not be deleted because student with email: asd@gmail.com does not exist.");
 	}
